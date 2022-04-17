@@ -10,12 +10,12 @@ public class CustomerService {
 
     public Map.Entry<Customer, String> getSmallest() {
 
-        return getMapEntry(customerData.firstEntry());
+        return copyMapEntry(customerData.firstEntry());
     }
 
     public Map.Entry<Customer, String> getNext(Customer customer) {
 
-        return getMapEntry(customerData.higherEntry(customer));
+        return copyMapEntry(customerData.higherEntry(customer));
     }
 
     public void add(Customer customer, String data) {
@@ -23,7 +23,7 @@ public class CustomerService {
         customerData.put(customer, data);
     }
 
-    private Map.Entry<Customer, String> getMapEntry(Map.Entry<Customer, String> entry)
+    private Map.Entry<Customer, String> copyMapEntry(Map.Entry<Customer, String> entry)
     {
         return entry == null ? null : Maps.immutableEntry(new Customer(entry.getKey().getId(),
                 entry.getKey().getName(), entry.getKey().getScores()), entry.getValue());
