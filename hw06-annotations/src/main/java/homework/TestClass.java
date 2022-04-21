@@ -19,7 +19,10 @@ public class TestClass {
     {
         int random = new Random().nextInt();
         if (random % 10 == 0)
-            throw new Exception("Exception before");
+        {
+            System.out.println("Exception before");
+            throw new Exception();
+        }
         System.out.println("Before without exception");
     }
 
@@ -66,7 +69,10 @@ public class TestClass {
     {
         int random = new Random().nextInt();
         if (random % 10 == 0)
-            throw new Exception("Exception after");
+        {
+            System.out.println("Exception after");
+            throw new Exception();
+        }
         System.out.println("After without exception");
     }
 }

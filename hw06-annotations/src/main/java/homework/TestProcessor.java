@@ -49,9 +49,18 @@ public class TestProcessor {
         for (Method method : testMethods)
         {
             Object object = constructor.newInstance();
-            if (runMethods(object, beforeMethods)
-                    && runTestMethod(object, method)
-                    && runMethods(object, afterMethods))
+
+            /*
+             * @before or @test have an exception => goto @after with flag "as finally"
+             */
+            boolean runAfterAsFinally = !runMethods(object, beforeMethods) || !runTestMethod(object, method);
+
+            /*
+             * @after is after success and don't have an exception => success
+             * @after is after success and have an exception => error
+             * @after is after error => error
+             */
+            if (runMethods(object, afterMethods) && !runAfterAsFinally)
             {
                 successCounter++;
             }
@@ -64,8 +73,8 @@ public class TestProcessor {
         printResult(successCounter, errorCounter);
     }
 
-    private static boolean runMethods(Object object, Method[] methods) {
-
+    private static boolean runMethods(Object object, Method[] methods)
+    {
         for (Method method : methods)
         {
             try
