@@ -2,6 +2,7 @@ package homework.aop;
 
 public class Calculator implements LoggableCalculator
 {
+    @Log
     @Override
     public void calculate(int param)
     {}
@@ -10,6 +11,7 @@ public class Calculator implements LoggableCalculator
     public void noLogCalculate(int param)
     {}
 
+    @Log
     @Override
     public void calculate(int param, int pamPam)
     {}
