@@ -10,19 +10,24 @@ import java.util.stream.Collectors;
 
 public class CalculatorProxy {
 
-    private CalculatorProxy(){}
-    static private List<Method> annotatedMethods;
+    private final LoggableCalculator loggableCalculator;
+    private final List<Method> annotatedMethods;
 
-    static public LoggableCalculator createCalculator()
+    public CalculatorProxy(LoggableCalculator loggableCalculator)
     {
-        annotatedMethods = Arrays.stream(Calculator.class.getMethods()).filter(x->x.isAnnotationPresent(Log.class)).collect(Collectors.toList());
+        this.loggableCalculator = loggableCalculator;
+        this.annotatedMethods = Arrays.stream(loggableCalculator.getClass().getMethods())
+                .filter(x->x.isAnnotationPresent(Log.class)).collect(Collectors.toList());
+    }
 
-        InvocationHandler handler = new CalculatorInvocationHandler(new Calculator());
+    public LoggableCalculator createCalculator()
+    {
+        InvocationHandler handler = new CalculatorInvocationHandler(loggableCalculator);
         return (LoggableCalculator) Proxy.newProxyInstance(CalculatorProxy.class.getClassLoader(),
                 new Class<?>[]{LoggableCalculator.class}, handler);
     }
 
-    static class CalculatorInvocationHandler implements InvocationHandler
+    class CalculatorInvocationHandler implements InvocationHandler
     {
         private final LoggableCalculator calculator;
 
@@ -44,9 +49,6 @@ public class CalculatorProxy {
 
         private boolean isAnnotatedMethod(Method method)
         {
-            if (annotatedMethods == null)
-                return false;
-
             for(Method annotatedMethod : annotatedMethods)
             {
                 if (method.getName().equals(annotatedMethod.getName())
@@ -60,7 +62,13 @@ public class CalculatorProxy {
         private boolean isMethodParamsEqual(Method method, Method annotatedMethod)
         {
             if (method.getParameterCount() != annotatedMethod.getParameterCount())
+            {
                 return false;
+            }
+            else if (method.getParameterCount() == 0)
+            {
+                return true;
+            }
 
             boolean isParametersEqual = false;
             for (int i = 0; i < method.getParameterCount(); i++)
