@@ -1,15 +1,25 @@
 package solid;
 
+import solid.money.MoneyCell;
 import solid.money.MoneyCells;
+import solid.money.MoneyCellsImpl;
 import solid.atm.ATM;
 import solid.printer.ATMBalancePrinterImpl;
+import solid.processor.ATMMoneyProcessorImpl;
+
+import static solid.money.MoneyCellType.*;
 
 public class ATMDemo
 {
-    public static void main(String[] args) {
-        ATM atm = new ATM(new ATMBalancePrinterImpl());
-        atm.inputMoney(new MoneyCells().addHundred(5)
-                .addFiveHundreds(5).addThousand(5).addFiveThousands(5));
+    public static void main(String[] args)
+    {
+        MoneyCells moneyCells = new MoneyCellsImpl()
+                .addNewCell(new MoneyCell(HUNDRED, 5))
+                .addNewCell(new MoneyCell(FIVE_HUNDREDS, 5))
+                .addNewCell(new MoneyCell(THOUSAND, 5))
+                .addNewCell(new MoneyCell(FIVE_THOUSANDS, 5));
+
+        ATM atm = new ATM(moneyCells, new ATMMoneyProcessorImpl(), new ATMBalancePrinterImpl());
         atm.printExtendedBalance();
         atm.printBalance();
 

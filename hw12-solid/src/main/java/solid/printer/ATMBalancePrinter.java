@@ -1,14 +1,16 @@
 package solid.printer;
 
+import solid.money.MoneyCellType;
+
 import java.util.Map;
 
 public interface ATMBalancePrinter
 {
     void printBalance(int balance);
 
-    void printExtendedBalance(Map<Integer, Integer> balanceMap);
+    void printExtendedBalance(Map<MoneyCellType, Integer> balanceMap);
 
-    void printNoAvailableBanknotesError(Map<Integer, Integer> balanceMap);
+    void printNoAvailableBanknotesError(Map<MoneyCellType, Integer> balanceMap);
 
-    void printWithdrawnMoney(Map<Integer, Integer> balanceMap);
+    void printWithdrawnMoney(Map<MoneyCellType, Integer> balanceMap);
 }

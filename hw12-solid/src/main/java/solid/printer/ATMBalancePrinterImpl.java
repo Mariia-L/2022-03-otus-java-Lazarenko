@@ -1,5 +1,7 @@
 package solid.printer;
 
+import solid.money.MoneyCellType;
+
 import java.util.Map;
 
 public class ATMBalancePrinterImpl implements ATMBalancePrinter
@@ -13,17 +15,17 @@ public class ATMBalancePrinterImpl implements ATMBalancePrinter
     }
 
     @Override
-    public void printExtendedBalance(Map<Integer, Integer> balanceMap)
+    public void printExtendedBalance(Map<MoneyCellType, Integer> balanceMap)
     {
         System.out.println("--------");
         balanceMap.entrySet().stream().filter(entry->entry.getValue() > 0)
-                .forEach(entry -> System.out.println("Номинал: " + entry.getKey() + " Количество купюр: "
-                        + entry.getValue() + " Сумма: " + entry.getValue()*entry.getKey()));
+                .forEach(entry -> System.out.println("Номинал: " + entry.getKey().getValue() + " Количество купюр: "
+                        + entry.getValue() + " Сумма: " + entry.getValue()*entry.getKey().getValue()));
         System.out.println("--------");
     }
 
     @Override
-    public void printNoAvailableBanknotesError(Map<Integer, Integer> balanceMap)
+    public void printNoAvailableBanknotesError(Map<MoneyCellType, Integer> balanceMap)
     {
         System.out.println("--------");
         System.out.println("Нет подходящих банкнот");
@@ -32,7 +34,7 @@ public class ATMBalancePrinterImpl implements ATMBalancePrinter
     }
 
     @Override
-    public void printWithdrawnMoney(Map<Integer, Integer> balanceMap)
+    public void printWithdrawnMoney(Map<MoneyCellType, Integer> balanceMap)
     {
         System.out.println("--------");
         System.out.println("Выдано: ");

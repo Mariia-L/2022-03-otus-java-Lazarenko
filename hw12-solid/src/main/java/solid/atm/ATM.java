@@ -1,6 +1,7 @@
 package solid.atm;
 
 import solid.money.MoneyCells;
+import solid.money.MoneyCellsImpl;
 import solid.processor.ATMMoneyProcessor;
 import solid.printer.ATMBalancePrinter;
 import solid.processor.NoBanknotesException;
@@ -9,11 +10,13 @@ public class ATM
 {
     private final MoneyCells moneyCells;
     private final ATMBalancePrinter balancePrinter;
+    private final ATMMoneyProcessor moneyProcessor;
 
-    public ATM(ATMBalancePrinter balancePrinter)
+    public ATM(MoneyCells moneyCells, ATMMoneyProcessor moneyProcessor, ATMBalancePrinter balancePrinter)
     {
-        this.moneyCells = new MoneyCells();
+        this.moneyCells = moneyCells;
         this.balancePrinter = balancePrinter;
+        this.moneyProcessor = moneyProcessor;
     }
 
     public void withdrawMoney(int amount)
@@ -22,7 +25,7 @@ public class ATM
 
         try
         {
-            withdrawnMoneyCells = ATMMoneyProcessor.withdrawMoney(amount, moneyCells);
+            withdrawnMoneyCells = moneyProcessor.withdrawMoney(amount, moneyCells);
             balancePrinter.printWithdrawnMoney(withdrawnMoneyCells.getCellsMap());
         }
         catch (NoBanknotesException exception)
@@ -32,14 +35,14 @@ public class ATM
         }
     }
 
-    public void inputMoney(MoneyCells inputMoneyCells)
+    public void inputMoney(MoneyCellsImpl inputMoneyCells)
     {
-       ATMMoneyProcessor.inputMoney(moneyCells, inputMoneyCells);
+       moneyProcessor.inputMoney(moneyCells, inputMoneyCells);
     }
 
     public void printBalance()
     {
-        balancePrinter.printBalance(ATMMoneyProcessor.getBalance(moneyCells));
+        balancePrinter.printBalance(moneyProcessor.getBalance(moneyCells));
     }
 
     public void printExtendedBalance()
