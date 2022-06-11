@@ -1,6 +1,6 @@
 package solid.printer;
 
-import solid.money.MoneyCellType;
+import solid.money.MoneyCellDenomination;
 
 import java.util.Map;
 
@@ -15,7 +15,7 @@ public class ATMBalancePrinterImpl implements ATMBalancePrinter
     }
 
     @Override
-    public void printExtendedBalance(Map<MoneyCellType, Integer> balanceMap)
+    public void printExtendedBalance(Map<MoneyCellDenomination, Integer> balanceMap)
     {
         System.out.println("--------");
         balanceMap.entrySet().stream().filter(entry->entry.getValue() > 0)
@@ -25,7 +25,7 @@ public class ATMBalancePrinterImpl implements ATMBalancePrinter
     }
 
     @Override
-    public void printNoAvailableBanknotesError(Map<MoneyCellType, Integer> balanceMap)
+    public void printNoAvailableBanknotesError(Map<MoneyCellDenomination, Integer> balanceMap)
     {
         System.out.println("--------");
         System.out.println("Нет подходящих банкнот");
@@ -34,7 +34,7 @@ public class ATMBalancePrinterImpl implements ATMBalancePrinter
     }
 
     @Override
-    public void printWithdrawnMoney(Map<MoneyCellType, Integer> balanceMap)
+    public void printWithdrawnMoney(Map<MoneyCellDenomination, Integer> balanceMap)
     {
         System.out.println("--------");
         System.out.println("Выдано: ");

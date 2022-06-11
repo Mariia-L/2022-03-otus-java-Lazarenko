@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum MoneyCellType
+public enum MoneyCellDenomination
 {
     HUNDRED (100),
     FIVE_HUNDREDS (500),

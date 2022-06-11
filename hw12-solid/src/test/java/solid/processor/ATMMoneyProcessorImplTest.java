@@ -2,7 +2,7 @@ package solid.processor;
 
 import org.junit.Assert;
 import org.junit.Test;
-import solid.money.MoneyCellType;
+import solid.money.MoneyCellDenomination;
 import solid.money.MoneyCells;
 import solid.money.MoneyCellsImpl;
 
@@ -12,12 +12,12 @@ public class ATMMoneyProcessorImplTest
     public void testInputMoney()
     {
         MoneyCells moneyCells = new MoneyCellsImpl();
-        moneyCells.addOneValue(MoneyCellType.HUNDRED);
-        moneyCells.addOneValue(MoneyCellType.THOUSAND);
+        moneyCells.addOneValue(MoneyCellDenomination.HUNDRED);
+        moneyCells.addOneValue(MoneyCellDenomination.THOUSAND);
 
         MoneyCells inputMoneyCells = new MoneyCellsImpl();
-        inputMoneyCells.addOneValue(MoneyCellType.FIVE_HUNDREDS);
-        inputMoneyCells.addOneValue(MoneyCellType.FIVE_THOUSANDS);
+        inputMoneyCells.addOneValue(MoneyCellDenomination.FIVE_HUNDREDS);
+        inputMoneyCells.addOneValue(MoneyCellDenomination.FIVE_THOUSANDS);
 
         new ATMMoneyProcessorImpl().inputMoney(moneyCells, inputMoneyCells);
 
@@ -29,10 +29,10 @@ public class ATMMoneyProcessorImplTest
     {
         MoneyCells moneyCells = new MoneyCellsImpl();
 
-        moneyCells.addOneValue(MoneyCellType.HUNDRED);
-        moneyCells.addOneValue(MoneyCellType.THOUSAND);
-        moneyCells.addOneValue(MoneyCellType.FIVE_HUNDREDS);
-        moneyCells.addOneValue(MoneyCellType.FIVE_THOUSANDS);
+        moneyCells.addOneValue(MoneyCellDenomination.HUNDRED);
+        moneyCells.addOneValue(MoneyCellDenomination.THOUSAND);
+        moneyCells.addOneValue(MoneyCellDenomination.FIVE_HUNDREDS);
+        moneyCells.addOneValue(MoneyCellDenomination.FIVE_THOUSANDS);
 
         Assert.assertEquals(Integer.valueOf(6600), new ATMMoneyProcessorImpl().getBalance(moneyCells));
     }
@@ -42,10 +42,10 @@ public class ATMMoneyProcessorImplTest
     {
         MoneyCellsImpl moneyCells = new MoneyCellsImpl();
 
-        moneyCells.addOneValue(MoneyCellType.HUNDRED);
-        moneyCells.addOneValue(MoneyCellType.THOUSAND);
-        moneyCells.addOneValue(MoneyCellType.FIVE_HUNDREDS);
-        moneyCells.addOneValue(MoneyCellType.FIVE_THOUSANDS);
+        moneyCells.addOneValue(MoneyCellDenomination.HUNDRED);
+        moneyCells.addOneValue(MoneyCellDenomination.THOUSAND);
+        moneyCells.addOneValue(MoneyCellDenomination.FIVE_HUNDREDS);
+        moneyCells.addOneValue(MoneyCellDenomination.FIVE_THOUSANDS);
 
         new ATMMoneyProcessorImpl().withdrawMoney(700, moneyCells);
     }
@@ -54,9 +54,9 @@ public class ATMMoneyProcessorImplTest
     public void testWithdrawMoneySuccess() throws NoBanknotesException {
         MoneyCellsImpl moneyCells = new MoneyCellsImpl();
 
-        moneyCells.addOneValue(MoneyCellType.HUNDRED);
-        moneyCells.addOneValue(MoneyCellType.HUNDRED);
-        moneyCells.addOneValue(MoneyCellType.FIVE_HUNDREDS);
+        moneyCells.addOneValue(MoneyCellDenomination.HUNDRED);
+        moneyCells.addOneValue(MoneyCellDenomination.HUNDRED);
+        moneyCells.addOneValue(MoneyCellDenomination.FIVE_HUNDREDS);
 
         new ATMMoneyProcessorImpl().withdrawMoney(700, moneyCells);
     }

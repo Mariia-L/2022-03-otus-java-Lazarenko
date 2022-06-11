@@ -3,7 +3,7 @@ package solid.money;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static solid.money.MoneyCellType.HUNDRED;
+import static solid.money.MoneyCellDenomination.HUNDRED;
 
 public class MoneyCellsImplTest
 {

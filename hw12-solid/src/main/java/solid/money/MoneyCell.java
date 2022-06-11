@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MoneyCell
 {
-    private final MoneyCellType moneyCellType;
-    private final Integer number;
+    private final MoneyCellDenomination moneyCellType;
+    private final Integer capacity;
 }

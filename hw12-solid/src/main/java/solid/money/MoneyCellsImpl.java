@@ -9,16 +9,16 @@ import java.util.TreeMap;
 @Getter
 public class MoneyCellsImpl implements MoneyCells
 {
-    private final Map<MoneyCellType, Integer> cellsMap;
+    private final Map<MoneyCellDenomination, Integer> cellsMap;
 
     /**
      * DESC
      */
     public MoneyCellsImpl()
     {
-        cellsMap = new TreeMap<>(new Comparator<MoneyCellType>() {
+        cellsMap = new TreeMap<>(new Comparator<MoneyCellDenomination>() {
             @Override
-            public int compare(MoneyCellType o1, MoneyCellType o2) {
+            public int compare(MoneyCellDenomination o1, MoneyCellDenomination o2) {
                 return o2.getValue()-o1.getValue();
             }
         });
@@ -26,11 +26,11 @@ public class MoneyCellsImpl implements MoneyCells
 
     public MoneyCellsImpl addNewCell(MoneyCell moneyCell)
     {
-        cellsMap.put(moneyCell.getMoneyCellType(), moneyCell.getNumber());
+        cellsMap.put(moneyCell.getMoneyCellType(), moneyCell.getCapacity());
         return this;
     }
 
-    public void addOneValue(MoneyCellType value)
+    public void addOneValue(MoneyCellDenomination value)
     {
         Integer number = cellsMap.containsKey(value) ? cellsMap.get(value) + 1 : 1;
         cellsMap.put(value, number);

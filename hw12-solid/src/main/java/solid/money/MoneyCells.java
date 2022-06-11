@@ -4,9 +4,9 @@ import java.util.Map;
 
 public interface MoneyCells
 {
-    Map<MoneyCellType, Integer> getCellsMap();
+    Map<MoneyCellDenomination, Integer> getCellsMap();
 
     MoneyCells addNewCell(MoneyCell moneyCell);
 
-    void addOneValue(MoneyCellType value);
+    void addOneValue(MoneyCellDenomination value);
 }

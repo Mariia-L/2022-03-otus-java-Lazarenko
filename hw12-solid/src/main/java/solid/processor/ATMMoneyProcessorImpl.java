@@ -1,6 +1,6 @@
 package solid.processor;
 
-import solid.money.MoneyCellType;
+import solid.money.MoneyCellDenomination;
 import solid.money.MoneyCells;
 import solid.money.MoneyCellsImpl;
 
@@ -14,7 +14,7 @@ public class ATMMoneyProcessorImpl implements ATMMoneyProcessor
         MoneyCells withdrawnMoneyCells = new MoneyCellsImpl();
         int newAmount = amount;
 
-        for (Map.Entry<MoneyCellType, Integer> entry : moneyCells.getCellsMap().entrySet())
+        for (Map.Entry<MoneyCellDenomination, Integer> entry : moneyCells.getCellsMap().entrySet())
         {
             if (newAmount >= entry.getKey().getValue())
             {
