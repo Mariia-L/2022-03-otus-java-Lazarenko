@@ -10,6 +10,9 @@ public class ObjectForMessage
 
     public static ObjectForMessage cloneObjectForMessage(ObjectForMessage objectForMessage)
     {
+        if (objectForMessage == null)
+            return null;
+
         ObjectForMessage clone = new ObjectForMessage();
 
         if (objectForMessage.getData() != null)
