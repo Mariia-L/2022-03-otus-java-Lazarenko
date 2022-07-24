@@ -37,6 +37,22 @@ public class WebServerWithBasicSecurityDemo {
 
     public static void main(String[] args) throws Exception {
 
+        DBServiceClient serviceClient = initDB();
+
+        TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
+
+        String hashLoginServiceConfigPath = FileSystemHelper.localFileNameOrResourceNameToFullPath(HASH_LOGIN_SERVICE_CONFIG_NAME);
+        LoginService loginService = new HashLoginService(REALM_NAME, hashLoginServiceConfigPath);
+
+        UsersWebServer usersWebServer = new UsersWebServerWithBasicSecurity(WEB_SERVER_PORT,
+                loginService, templateProcessor, serviceClient);
+
+        usersWebServer.start();
+        usersWebServer.join();
+    }
+
+    private static DBServiceClient initDB()
+    {
         var configuration = new Configuration().configure(HIBERNATE_CFG_FILE);
 
         var dbUrl = configuration.getProperty("hibernate.connection.url");
@@ -45,24 +61,12 @@ public class WebServerWithBasicSecurityDemo {
 
         new MigrationsExecutorFlyway(dbUrl, dbUserName, dbPassword).executeMigrations();
 
-        TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
-
         var sessionFactory = HibernateUtils.buildSessionFactory(configuration,
                 Client.class, Address.class, Phone.class);
 
         var transactionManager = new TransactionManagerHibernate(sessionFactory);
-///
         var clientTemplate = new DataTemplateHibernate<>(Client.class);
 
-        String hashLoginServiceConfigPath = FileSystemHelper.localFileNameOrResourceNameToFullPath(HASH_LOGIN_SERVICE_CONFIG_NAME);
-        LoginService loginService = new HashLoginService(REALM_NAME, hashLoginServiceConfigPath);
-
-        DBServiceClient serviceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
-
-        UsersWebServer usersWebServer = new UsersWebServerWithBasicSecurity(WEB_SERVER_PORT,
-                loginService, templateProcessor, serviceClient);
-
-        usersWebServer.start();
-        usersWebServer.join();
+        return new DbServiceClientImpl(transactionManager, clientTemplate);
     }
 }
