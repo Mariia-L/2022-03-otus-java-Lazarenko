@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Клиенты</title>
+    <script>
+        function saveClient() {
+
+            const clientNameBox = document.getElementById('clientNameTextBox');
+            const clientPhoneBox = document.getElementById('clientPhoneTextBox');
+            const clientAddressBox = document.getElementById('clientAddressTextBox');
+
+            const clientName =  clientNameBox.value;
+            const clientPhone = clientPhoneBox.value;
+            const clientAddress = clientAddressBox.value;
+
+            const data =
+                {
+                    name: clientName,
+                    phone: clientPhone,
+                    address: clientAddress
+                };
+
+            fetch("api/client", {
+
+                method: "POST",
+
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(data)
+
+            }).then(() => {
+                window.location.reload();
+            })
+        }
+
+    </script>
+</head>
+
+<body>
+
+<h4>Добавить клиента</h4>
+<input type="text" id = "clientNameTextBox" value="" placeholder="Имя" name="Имя"><br>
+<input type="text" id = "clientPhoneTextBox" value="" placeholder="Телефон" name="Телефон"><br>
+<input type="text" id = "clientAddressTextBox" value="" placeholder="Адрес" name="Адрес"><br>
+<button onclick="saveClient()">Сохранить</button>
+
+<table style="width: 400px">
+    <thead>
+    <tr>
+        <td style="width: 50px">Id</td>
+        <td style="width: 150px">Имя</td>
+        <td style="width: 100px">Телефон</td>
+        <td style="width: 100px">Адрес</td>
+    </tr>
+    </thead>
+    <tbody>
+    <#list clients as client>
+    <tr>
+        <td>${client.id}</td>
+        <td>${client.name}</td>
+        <td>${client.phone.phone}</td>
+        <td>${client.address.street}</td>
+    </tr>
+    </#list>
+    </tbody>
+</table>
+
+</body>
+</html>
