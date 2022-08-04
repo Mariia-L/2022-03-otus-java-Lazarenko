@@ -21,7 +21,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
         checkConfigClass(configClass);
 
         try {
-            Object configObject = configClass.getDeclaredConstructors()[0].newInstance();
+            Object configObject = configClass.getConstructor().newInstance();
 
             Method[] methods = configClass.getDeclaredMethods();
             Method[] sortedMethods = getSortedMethods(methods);
@@ -69,7 +69,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
         }
         else {
             List<Object> methodParameters = new ArrayList<>();
-            for (Class clazz : method.getParameterTypes()) {
+            for (Class<?> clazz : method.getParameterTypes()) {
                 methodParameters.add(getAppComponent(clazz));
             }
             classObject = method.invoke(configObject, methodParameters.toArray());
@@ -82,7 +82,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 .sorted(new Comparator<>() {
                     @Override
                     public int compare(Method o1, Method o2) {
-                        return o1.getAnnotation(AppComponent.class).order() - o2.getAnnotation(AppComponent.class).order();
+                        return Integer.compare(o1.getAnnotation(AppComponent.class).order(), o2.getAnnotation(AppComponent.class).order());
                     }
                 }).toArray(Method[]::new);
         return sortedMethods;
