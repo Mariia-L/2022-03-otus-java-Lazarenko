@@ -38,8 +38,8 @@ public class ClientController {
     @PostMapping("/client/save")
     public RedirectView clientSave(@ModelAttribute Client client, Model model) {
 
-        clientService.saveClient(client);
-        model.addAttribute("client", client);
+        Client savedClient = clientService.saveClient(client);
+        model.addAttribute("client", savedClient);
         return new RedirectView("/", true);
     }
 
